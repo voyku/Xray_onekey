@@ -423,6 +423,15 @@ function generate_certificate() {
   chown nobody.$cert_group $cert_dir/self_signed_key.pem
 }
 
+function certificate_renewal() {
+   cert_renewsh="/ssl/renew.sh"
+   cd /ssl/ && wget -O renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
+   sed -i "s/xxx/${domain}/g" ${cert_renewsh}
+   chmod 755 /ssl/renew.sh
+   echo -e "0 1 1 * *   bash /ssl/renew.sh" >> /var/spool/cron/crontabs/root 
+   print_ok "已设置证书自动更新"
+}
+
 function configure_web() {
   rm -rf /www/xray_web
   mkdir -p /www/xray_web
@@ -585,6 +594,7 @@ function install_xray() {
   configure_nginx
   configure_web
   generate_certificate
+  certificate_renewal
   ssl_judge_and_install
   restart_all
   basic_information
