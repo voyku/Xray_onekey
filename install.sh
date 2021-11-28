@@ -364,9 +364,8 @@ function ssl_install() {
   #  else
   #    ${INS} socat netcat
   #  fi
-  #  judge "安装 SSL 证书生成脚本依赖"
-  munber = ${random_num} *10000 + ${random_num} *1000 + ${random_num} *100 + ${random_num} *10 + ${random_num} 
-  curl -L get.acme.sh | sh -s email=${munber}sgfhsffd@gmail.com
+  #  judge "安装 SSL 证书生成脚本依赖" 
+  curl -L get.acme.sh | sh -s email=${random_num}sgfhsffd@gmail.com
   judge "安装 SSL 证书生成脚本"
 }
 
@@ -425,7 +424,7 @@ function generate_certificate() {
 
 function certificate_renewal() {
    cert_renewsh="/ssl/renew.sh"
-   cd /ssl/ && wget -O renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
+   mkdir /ssl && cd /ssl/ && wget -O renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
    sed -i "s/xxx/${domain}/g" ${cert_renewsh}
    chmod 755 /ssl/renew.sh
    echo -e "0 1 1 * *   bash /ssl/renew.sh" >> /var/spool/cron/crontabs/root 
