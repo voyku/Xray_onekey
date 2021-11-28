@@ -424,7 +424,7 @@ function generate_certificate() {
 
 function certificate_renewal() {
    cert_renewsh="/ssl/renew.sh"
-   mkdir /ssl && cd /ssl/ && wget -O renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
+   cd /ssl/ && wget -O renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
    sed -i "s/xxx/${domain}/g" ${cert_renewsh}
    chmod 755 /ssl/renew.sh
    echo -e "0 1 1 * *   bash /ssl/renew.sh" >> /var/spool/cron/crontabs/root 
@@ -593,8 +593,8 @@ function install_xray() {
   configure_nginx
   configure_web
   generate_certificate
-  certificate_renewal
   ssl_judge_and_install
+  certificate_renewal
   restart_all
   basic_information
 }
