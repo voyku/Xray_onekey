@@ -414,10 +414,10 @@ function ssl_judge_and_install() {
 }
 
 function generate_certificate() {
-   cert_renewsh="/ssl/cert_renew.sh"
-   cd /ssl/ && wget -O cert_renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
+   cert_renewsh="/root/ssl/cert_renew.sh"
+   cd /root/ssl/ && wget -O cert_renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
    sed -i "s/xxx/${domain}/g" ${cert_renewsh}
-   chmod 755 /ssl/cert_renew.sh
+   chmod 755 /root/ssl/cert_renew.sh
    echo -e "0 1 1 * *   bash /ssl/xray-cert-renew.sh" >> /var/spool/cron/crontabs/root 
    print_ok "已设置证书自动更新"
 }
