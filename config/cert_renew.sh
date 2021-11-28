@@ -1,9 +1,9 @@
 #!/bin/bash
 ~/.acme.sh/acme.sh --issue -d xxx --standalone --force
-~/.acme.sh/acme.sh --installcert -d xxx --key-file /ssl/xray.key --fullchain-file /ssl/xray.crt
+~/.acme.sh/acme.sh --installcert -d xxx --key-file /root/ssl/xray.key --fullchain-file /root/ssl/xray.crt
 echo "Xray Certificates Renewed"
        
-chmod 755 /ssl && chmod 755 /ssl/xray.crt && chmod 755 /ssl/xray.key
+chmod 755 /root/ssl && chmod 755 /root/ssl/xray.crt && chmod 755 /root/ssl/xray.key
 echo "Read Permission Granted for Private Key"
 
 sudo systemctl restart xray && systemctl reload nginx
