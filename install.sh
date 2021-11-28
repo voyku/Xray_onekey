@@ -365,33 +365,17 @@ function ssl_install() {
   #    ${INS} socat netcat
   #  fi
   #  judge "安装 SSL 证书生成脚本依赖"
-
-  curl -L get.acme.sh | bash
+  munber = ${random_num} *10000 + ${random_num} *1000 + ${random_num} *100 + ${random_num} *10 + ${random_num} 
+  curl -L get.acme.sh | sh -s email=${munber}sgfhsffd@gmail.com
   judge "安装 SSL 证书生成脚本"
 }
 
 function acme() {
-  "$HOME"/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-
-  sed -i "6s/^/#/" "$nginx_conf"
-  sed -i "6a\\\troot $website_dir;" "$nginx_conf"
-  systemctl restart nginx
-
-  if "$HOME"/.acme.sh/acme.sh --issue -d "${domain}" --webroot "$website_dir" -k ec-256 --force; then
-    print_ok "SSL 证书生成成功"
-    sleep 2
-    if "$HOME"/.acme.sh/acme.sh --installcert -d "${domain}" --fullchainpath /ssl/xray.crt --keypath /ssl/xray.key --reloadcmd "systemctl restart xray" --ecc --force; then
-      print_ok "SSL 证书配置成功"
-      sleep 2
-    fi
-  else
-    print_error "SSL 证书生成失败"
-    rm -rf "$HOME/.acme.sh/${domain}_ecc"
-    exit 1
-  fi
-
-  sed -i "7d" "$nginx_conf"
-  sed -i "6s/#//" "$nginx_conf"
+  export CF_Key="b87598da92115d89c64b03c5ba865ba1cec54"
+  export CF_Email="nicegirlmari@gmail.com"
+ "$HOME"/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" --force
+ "$HOME"/.acme.sh/acme.sh --installcert -d "${domain}" --key-file /ssl/xray.key --fullchain-file /ssl/xray.crt
+  chmod 755 /ssl/xray.key && chmod 755 /ssl/xray.crt
 }
 
 function ssl_judge_and_install() {
