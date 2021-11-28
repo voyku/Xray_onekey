@@ -414,12 +414,13 @@ function ssl_judge_and_install() {
 }
 
 function generate_certificate() {
-   cert_renewsh="/root/ssl/cert_renew.sh"
-   cd /root/ssl/ && wget -O cert_renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
-   sed -i "s/xxx/${domain}/g" ${cert_renewsh}
-   chmod 755 /root/ssl/cert_renew.sh
-   echo -e "0 1 1 * *   bash /ssl/xray-cert-renew.sh" >> /var/spool/cron/crontabs/root 
-   print_ok "已设置证书自动更新"
+  signedcert=$(xray tls cert -domain="$local_ip" -name="$local_ip" -org="$local_ip" -expire=87600h)
+  echo $signedcert | jq '.certificate[]' | sed 's/\"//g' | tee $cert_dir/self_signed_cert.pem
+  echo $signedcert | jq '.key[]' | sed 's/\"//g' >$cert_dir/self_signed_key.pem
+  openssl x509 -in $cert_dir/self_signed_cert.pem -noout || 'print_error "生成自签名证书失败" && exit 1'
+  print_ok "生成自签名证书成功"
+  chown nobody.$cert_group $cert_dir/self_signed_cert.pem
+  chown nobody.$cert_group $cert_dir/self_signed_key.pem
 }
 
 function configure_web() {
