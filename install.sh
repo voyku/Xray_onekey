@@ -312,7 +312,7 @@ function modify_ws() {
 
 function configure_nginx() {
   nginx_conf="/etc/nginx/conf.d/${domain}.conf"
-  cd /etc/nginx/conf.d/ && rm -f ${domain}.conf && wget -O ${domain}.conf https://raw.githubusercontent.com/wulabing/Xray_onekey/${github_branch}/config/web.conf
+  cd /etc/nginx/conf.d/ && rm -f ${domain}.conf && wget -O ${domain}.conf hhttps://raw.githubusercontent.com/voyku/Xray_onekey/main/config/web.conf
   sed -i "s/xxx/${domain}/g" ${nginx_conf}
   judge "Nginx 配置 修改"
 
@@ -333,7 +333,7 @@ function modify_port() {
 }
 
 function configure_xray() {
-  cd /usr/local/etc/xray && rm -f config.json && wget -O config.json https://raw.githubusercontent.com/wulabing/Xray_onekey/${github_branch}/config/xray_xtls-rprx-direct.json
+  cd /usr/local/etc/xray && rm -f config.json && wget -O config.json https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/xray_xtls-rprx-direct.json
   modify_UUID
   modify_port
 }
