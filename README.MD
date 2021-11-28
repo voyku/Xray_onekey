@@ -25,10 +25,10 @@ https://github.com/XTLS/Xray-core/issues/91
 
 支持配置方式
 
-VLESS + TCP + TLS + Nginx + WebSocket
+VLESS + TCP + xtls-rprx-direct
 
 ```
-wget -N --no-check-certificate -q -O install.sh "https://raw.githubusercontent.com/wulabing/Xray_onekey/nginx_forward/install.sh" && chmod +x install.sh && bash install.sh
+wget -N --no-check-certificate -q -O install.sh "https://raw.githubusercontent.com/voyku/Xray_onekey/main/install.sh" && chmod +x install.sh && bash install.sh
 ```
 
 ### 安装/更新方式（Xray 前置）
