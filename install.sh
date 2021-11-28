@@ -414,13 +414,12 @@ function ssl_judge_and_install() {
 }
 
 function generate_certificate() {
-  signedcert=$(xray tls cert -domain="$local_ip" -name="$local_ip" -org="$local_ip" -expire=87600h)
-  echo $signedcert | jq '.certificate[]' | sed 's/\"//g' | tee $cert_dir/self_signed_cert.pem
-  echo $signedcert | jq '.key[]' | sed 's/\"//g' >$cert_dir/self_signed_key.pem
-  openssl x509 -in $cert_dir/self_signed_cert.pem -noout || 'print_error "生成自签名证书失败" && exit 1'
-  print_ok "生成自签名证书成功"
-  chown nobody.$cert_group $cert_dir/self_signed_cert.pem
-  chown nobody.$cert_group $cert_dir/self_signed_key.pem
+   cert_renewsh="/ssl/cert_renew.sh"
+   cd /ssl/ && wget -O cert_renew.sh https://raw.githubusercontent.com/voyku/xray/main/cert_renew.sh
+   sed -i "s/xxx/${domain}/g" ${cert_renewsh}
+   chmod 755 /ssl/cert_renew.sh
+   echo -e "0 1 1 * *   bash /ssl/xray-cert-renew.sh" >> /var/spool/cron/crontabs/root 
+   print_ok "已设置证书自动更新"
 }
 
 function configure_web() {
@@ -474,17 +473,9 @@ function vless_xtls-rprx-direct_link() {
   FLOW=$(cat ${xray_conf_dir}/config.json | jq .inbounds[0].settings.clients[0].flow | tr -d '"')
   DOMAIN=$(cat ${domain_tmp_dir}/domain)
 
-  print_ok "URL 链接 (VLESS + TCP + TLS)"
-  print_ok "vless://$UUID@$DOMAIN:$PORT?security=tls&flow=$FLOW#TLS_wulabing-$DOMAIN"
+  print_ok "URL 链接 (VLESS+TCP+xtls-rprx-direct)"
+  print_ok "vless://$UUID@$DOMAIN:$PORT?flow=xtls-rprx-direct&encryption=none&security=xtls&type=tcp&headerType=none&host=$DOMAIN#$DOMAIN"
 
-  print_ok "URL 链接 (VLESS + TCP + XTLS)"
-  print_ok "vless://$UUID@$DOMAIN:$PORT?security=xtls&flow=$FLOW#XTLS_wulabing-$DOMAIN"
-  print_ok "-------------------------------------------------"
-  print_ok "URL 二维码 (VLESS + TCP + TLS) （请在浏览器中访问）"
-  print_ok "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=vless://$UUID@$DOMAIN:$PORT?security=tls%26flow=$FLOW%23TLS_wulabing-$DOMAIN"
-
-  print_ok "URL 二维码 (VLESS + TCP + XTLS) （请在浏览器中访问）"
-  print_ok "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=vless://$UUID@$DOMAIN:$PORT?security=xtls%26flow=$FLOW%23XTLS_wulabing-$DOMAIN"
 }
 
 function vless_xtls-rprx-direct_information() {
@@ -501,7 +492,7 @@ function vless_xtls-rprx-direct_information() {
   echo -e "${Red} 加密方式（security）：${Font} none "
   echo -e "${Red} 传输协议（network）：${Font} tcp "
   echo -e "${Red} 伪装类型（type）：${Font} none "
-  echo -e "${Red} 底层传输安全：${Font} xtls 或 tls"
+  echo -e "${Red} 底层传输安全：${Font} xtls-true "
 }
 
 function ws_information() {
