@@ -415,7 +415,7 @@ function ssl_judge_and_install() {
 
 function generate_certificate() {
    cert_renewsh="/ssl/cert_renew.sh"
-   cd /ssl/ && wget -O cert_renew.sh https://raw.githubusercontent.com/voyku/xray/main/cert_renew.sh
+   cd /ssl/ && wget -O cert_renew.sh https://raw.githubusercontent.com/voyku/Xray_onekey/main/config/cert_renew.sh
    sed -i "s/xxx/${domain}/g" ${cert_renewsh}
    chmod 755 /ssl/cert_renew.sh
    echo -e "0 1 1 * *   bash /ssl/xray-cert-renew.sh" >> /var/spool/cron/crontabs/root 
