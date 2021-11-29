@@ -1,9 +1,9 @@
 #!/bin/bash
-~/.acme.sh/acme.sh --issue -d gdaban.125125.xyz --standalone --force
-~/.acme.sh/acme.sh --installcert -d gdaban.125125.xyz --key-file /etc/ssl/private/smitho.key --fullchain-file /etc/ssl/private/smitho.crt
+~/.acme.sh/acme.sh --issue --dns dns_cf -d xxx --force 
+~/.acme.sh/acme.sh --installcert -d xxx --key-file /ssl/xray.key --fullchain-file /ssl/xray.crt
 echo "Xray Certificates Renewed"
        
-chmod 755 /etc/ssl/private && chmod 755 /etc/ssl/private/smitho.crt && chmod 755 /etc/ssl/private/smitho.key
+chmod 755 /ssl/xray.crt && chmod 755 /ssl/xray.key
 echo "Read Permission Granted for Private Key"
 
 sudo systemctl restart xray && systemctl reload nginx
