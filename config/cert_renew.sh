@@ -1,5 +1,4 @@
-#!/bin/bash
-~/.acme.sh/acme.sh --issue -d xxx --standalone --force
+~/.acme.sh/acme.sh --issue --dns dns_cf -d xxx --force 
 ~/.acme.sh/acme.sh --installcert -d xxx --key-file /ssl/xray.key --fullchain-file /ssl/xray.crt
 echo "Xray Certificates Renewed"
        
