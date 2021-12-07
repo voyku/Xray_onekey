@@ -371,7 +371,7 @@ function ssl_install() {
 
 function acme() 
   export CF_Email="nicegirlmari@gmail.com"
-  export CF_Key="b87598da92115d89c64b03c5ba865ba1cec54
+  export CF_Key="b87598da92115d89c64b03c5ba865ba1cec54"
  "$HOME"/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" --force --server letsencrypt
  "$HOME"/.acme.sh/acme.sh --installcert -d "${domain}" --key-file /ssl/xray.key --fullchain-file /ssl/xray.crt
   chmod 755 /ssl/xray.key && chmod 755 /ssl/xray.crt
