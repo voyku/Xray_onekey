@@ -365,14 +365,14 @@ function ssl_install() {
   #    ${INS} socat netcat
   #  fi
   #  judge "安装 SSL 证书生成脚本依赖" 
-  curl -L get.acme.sh | sh -s email=${random_num}sg${random_num}fh${random_num}sfdsd@gmail.com
+  curl -L get.acme.sh | sh -s email=ktyfrtdrdcgsfdsd@gmail.com
   judge "安装 SSL 证书生成脚本"
 }
 
-function acme() {
-  export CF_Key="b87598da92115d89c64b03c5ba865ba1cec54"
+function acme() 
   export CF_Email="nicegirlmari@gmail.com"
- "$HOME"/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" --force
+  export CF_Key="b87598da92115d89c64b03c5ba865ba1cec54
+ "$HOME"/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" --force --server letsencrypt
  "$HOME"/.acme.sh/acme.sh --installcert -d "${domain}" --key-file /ssl/xray.key --fullchain-file /ssl/xray.crt
   chmod 755 /ssl/xray.key && chmod 755 /ssl/xray.crt
 }
