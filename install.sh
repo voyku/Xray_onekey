@@ -365,7 +365,7 @@ function ssl_install() {
   #    ${INS} socat netcat
   #  fi
   #  judge "安装 SSL 证书生成脚本依赖" 
-  curl -L get.acme.sh | sh -s email=${random_num}sgfhsffd@gmail.com
+  curl -L get.acme.sh | sh -s email=${random_num}sg${random_num}fh${random_num}sfdsd@gmail.com
   judge "安装 SSL 证书生成脚本"
 }
 
